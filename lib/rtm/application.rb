@@ -1,21 +1,16 @@
-#class Screen
-#  def clear
-#    system("clear")
-#  end
-#end
-
 module RTM
   class Application
-    #def run!
-    #  while true
-    #    line = STDIN.readline
-    #
-    #    s = Screen.new
-    #    s.clear
-    #
-    #    puts line
-    #  end
-    #end
+    def initialize command_reader, engine, screen
+      @command_reader = command_reader
+      @engine = engine
+      @screen = screen
+    end
+
+    def run!
+      while command = @command_reader.next_command
+        response = @engine.process(command)
+        @screen.render response
+      end
+    end
   end
 end
-#Application.new.run!
