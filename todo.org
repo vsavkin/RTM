@@ -1,0 +1,10 @@
+* TODO
+** TODO Implement auth
+** TODO Implement syncing up all data from the server to the client
+
+* IDEAS
+  - [ ] Always set the list name as the first tag for all tasks
+  - [ ] Use interactive mode for moving elements
+  - [ ] Change numbers of elements when assigning priorities to them,
+    as it changes the order and numbers should reflect the order
+  - [ ] Remove numbers to display elements in smart lists
