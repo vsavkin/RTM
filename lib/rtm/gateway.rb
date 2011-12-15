@@ -12,20 +12,36 @@ module RTM
     end
 
     def generate_auth_link
-      response = send_request 'method' => 'rtm.auth.getFrob', 'api_key' => @api_key, 'format' => 'json'
-      parsed = JSON.parse(response)
-      raise "Invalid Response #{response}" unless parsed['rsp']['stat'] == 'ok'
-      frob = parsed['rsp']['frob']
-      auth_parameters = build_request 'perms' => 'delete', 'frob' => frob
-
-      parameters = auth_parameters.map { |k, v| "#{k}=#{v}" }.join("&")
+      frob = request_frob
+      parameters = build_auth_parameters frob
       "#{AUTH_URL}?#{parameters}"
     end
 
+    def get_token frob
+      send_request 'method' => 'rtm.auth.getToken', 'frob' => frob
+    end
+
+    def check_token token
+      send_request 'method' => 'rtm.auth.checkToken', 'auth_token' => token
+    end
+    
     private
+    def build_auth_parameters frob
+      auth_parameters = build_signed_request 'perms' => 'delete', 'frob' => frob
+      auth_parameters.map { |k, v| "#{k}=#{v}" }.join("&")
+    end
+    
+    def request_frob
+      response = send_request 'method' => 'rtm.auth.getFrob'
+      raise "Invalid Response #{response}" unless response['rsp']['stat'] == 'ok'
+      response['frob']
+    end
+    
     def send_request request_hash
-      request = build_request(request_hash)
-      RestClient.get URL, :params => request
+      params = build_signed_request(request_hash.merge('format' => 'json'))
+      response = RestClient.get(URL, :params => params)
+      parsed = JSON.parse(response)
+      parsed['rsp']
     end
 
     def send_auth_request request_hash
@@ -33,12 +49,15 @@ module RTM
       RestClient.get AUTH_URL, request
     end
 
-    def build_request request_hash
-      signed_request = RTM::Signer.sign @secret, request_hash
-      request_hash.merge('api_key' => @api_key, 'api_sig' => signed_request)
+    def build_signed_request request_hash
+      result_hash = request_hash.merge('api_key' => @api_key)
+      signed_request = RTM::Signer.sign @secret, result_hash
+      result_hash.merge('api_sig' => signed_request)
     end
   end
 end
 
 gateway = RTM::Gateway.new("4486f9224a4a8fa8fef850482fc26160", "03b3b6dba031d1b2")
-p gateway.generate_auth_link
+#p gateway.generate_auth_link
+#p gateway.get_token "07f7d888f935b1c936d0a8eaae64c6e8e35ee3e7"
+#p gateway.check_token "079c19ec8b7e364860288624da7a9cf416d310d1"
