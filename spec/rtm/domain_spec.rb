@@ -23,6 +23,6 @@ describe 'Domain' do
       list.tasks.should == [task1, task2]
     end
   end
-  
+
 end
 

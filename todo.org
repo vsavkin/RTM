@@ -1,6 +1,8 @@
 * TODO
-** TODO Implement auth
+** DONE Implement auth
 ** TODO Implement syncing up all data from the server to the client
+- [ ] Implement RTM::Repository#fetch_user_data
+  Gateway.get_all_lists.map{|s| get_all_tasks(id)}
 
 * IDEAS
   - [ ] Always set the list name as the first tag for all tasks

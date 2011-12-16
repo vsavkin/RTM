@@ -7,8 +7,8 @@ module RTM
     AUTH_URL = "http://www.rememberthemilk.com/services/auth/"
     URL = "https://api.rememberthemilk.com/services/rest/"
 
-    def initialize api_key, secret
-      @api_key, @secret = api_key, secret
+    def initialize api_key, secret, token = nil
+      @api_key, @secret, @token = api_key, secret, token
     end
 
     def generate_auth_link
@@ -21,16 +21,17 @@ module RTM
       send_request 'method' => 'rtm.auth.getToken', 'frob' => frob
     end
 
-    def check_token token
-      send_request 'method' => 'rtm.auth.checkToken', 'auth_token' => token
+    
+    def check_token
+      send_request 'method' => 'rtm.auth.checkToken', 'auth_token' => @token
     end
 
-    def get_all_lists token
-      send_request 'method' => 'rtm.lists.getList', 'auth_token' => token
+    def get_all_lists
+      send_request 'method' => 'rtm.lists.getList', 'auth_token' => @token
     end
 
-    def get_tasks_from_list token, list_id
-      send_request 'method' => 'rtm.tasks.getList', 'auth_token' => token, 'list_id' => list_id
+    def get_tasks_from_list list_id
+      send_request 'method' => 'rtm.tasks.getList', 'auth_token' => @token, 'list_id' => list_id
     end
     
     private
