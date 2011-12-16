@@ -66,12 +66,12 @@ module RTM
   end
 end
 
-gateway = RTM::Gateway.new("4486f9224a4a8fa8fef850482fc26160", "03b3b6dba031d1b2")
 token = "079c19ec8b7e364860288624da7a9cf416d310d1"
+gateway = RTM::Gateway.new("4486f9224a4a8fa8fef850482fc26160", "03b3b6dba031d1b2", token)
 list_id = "21338504"
 #p gateway.generate_auth_link
 #p gateway.get_token "07f7d888f935b1c936d0a8eaae64c6e8e35ee3e7"
 
 #p gateway.check_token  "079c19ec8b7e364860288624da7a9cf416d310d1"
-#p gateway.get_all_lists(token)
-p gateway.get_tasks_from_list(token, list_id)
+#p gateway.get_all_lists
+p gateway.get_tasks_from_list(list_id)
