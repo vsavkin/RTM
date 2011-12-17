@@ -1,8 +1,9 @@
 * TODO
 ** DONE Implement auth
-** TODO Implement syncing up all data from the server to the client
-- [ ] Implement RTM::Repository#fetch_user_data
-  Gateway.get_all_lists.map{|s| get_all_tasks(id)}
+** DONE Implement syncing up all data from the server to the client
+** TODO Implement Storage to store all lists and the auth token
+** TODO Implement the first step of the ui generating auth link and saving token after that
+   it should also check the auth token each time you start rtm
 
 * IDEAS
   - [ ] Always set the list name as the first tag for all tasks
@@ -10,3 +11,5 @@
   - [ ] Change numbers of elements when assigning priorities to them,
     as it changes the order and numbers should reflect the order
   - [ ] Remove numbers to display elements in smart lists
+  - [ ] Check if it's possible to set the position property for lists
+    and tasks
