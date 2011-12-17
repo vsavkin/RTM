@@ -13,8 +13,9 @@ module RTM
   end
 
   class List
-    attr_reader :id, :name, :tasks
-
+    attr_reader :id, :name
+    attr_accessor :tasks
+    
     def initialize args
       @id = args[:id]
       @name = args[:name]
