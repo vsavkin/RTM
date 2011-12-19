@@ -7,9 +7,12 @@ module RTM
     end
 
     def run!
-      while command = @command_reader.next_command
-        response = @engine.process(command)
+      command = RTM::Engine::INIT
+      while true
+        response = @engine.process command
         @screen.render response
+        return if response.exit?
+        command = @command_reader.next_command
       end
     end
   end

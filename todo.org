@@ -1,7 +1,7 @@
 * TODO
 ** DONE Implement auth
 ** DONE Implement syncing up all data from the server to the client
-** TODO Implement Storage to store all lists and the auth token
+** DONE Implement Storage to store all lists and the auth token
 ** TODO Implement the first step of the ui generating auth link and saving token after that
    it should also check the auth token each time you start rtm
 
