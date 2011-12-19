@@ -11,8 +11,13 @@ module RTM
       @api_key, @secret, @token = api_key, secret, token
     end
 
-    def generate_auth_link
-      frob = request_frob
+    def get_frob
+      response = send_request 'method' => 'rtm.auth.getFrob'
+      raise "Invalid Response #{response}" unless response['rsp']['stat'] == 'ok'
+      response['frob']
+    end
+
+    def generate_auth_link frob
       parameters = build_auth_parameters frob
       "#{AUTH_URL}?#{parameters}"
     end
@@ -38,12 +43,6 @@ module RTM
     def build_auth_parameters frob
       auth_parameters = build_signed_request 'perms' => 'delete', 'frob' => frob
       auth_parameters.map { |k, v| "#{k}=#{v}" }.join("&")
-    end
-    
-    def request_frob
-      response = send_request 'method' => 'rtm.auth.getFrob'
-      raise "Invalid Response #{response}" unless response['rsp']['stat'] == 'ok'
-      response['frob']
     end
     
     def send_request request_hash
